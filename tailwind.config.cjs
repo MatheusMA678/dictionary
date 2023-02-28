@@ -6,6 +6,7 @@ module.exports = {
       sans: "Poppins, sans-serif",
       serif: "Roboto Slab, serif",
       cursive: "Courgette, cursive",
+      mono: "monospace",
     },
     extend: {},
   },

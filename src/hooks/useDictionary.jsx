@@ -1,20 +1,28 @@
 import { useEffect, useState } from "react";
 
-export const useDictionary = ({ word }) => {
-  const [dictionary, setDictionary] = useState([]);
+export const useDictionary = ({ text }) => {
+  const [data, setData] = useState([]);
+  const [meanings, setMeanings] = useState([]);
+  const [phonetics, setPhonetics] = useState([]);
+  const [word, setWord] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!word) {
+    if (!text) {
       return;
     }
 
-    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${text}`)
       .then((res) => res.json())
-      .then((data) => setDictionary(data))
-      .catch((err) => console.error(err));
-  }, [word]);
+      .then((data) => {
+        setData(data);
+        setMeanings(data[0].meanings);
+        setPhonetics(data[0].phonetics);
+        setWord(data[0].word);
+        setError("");
+      })
+      .catch((err) => setError(err));
+  }, [text]);
 
-  console.log(dictionary);
-
-  return { dictionary };
+  return { meanings, phonetics, word, error, data };
 };
